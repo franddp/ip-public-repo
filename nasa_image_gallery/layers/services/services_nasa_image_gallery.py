@@ -10,17 +10,26 @@ def getAllImages(input=None):
     # ¡OJO! el parámetro 'input' indica si se debe buscar por un valor introducido en el buscador.
     json_collection = []
 
+    if input:
+        json_collection = transport.getAllImages(input)
+    else:
+        json_collection = transport.getAllImages()
+
     images = []
 
-    json_collection = transport.getAllImages()
-
     for json in json_collection:
-        images.append(mapper.fromRequestIntoNASACard(json))
+        #El try y el except me ayudan a evitar errores por falta de datos, en este caso keyerror description
+        try:
+            images.append(mapper.fromRequestIntoNASACard(json))
+        except KeyError:
+            continue
+        
 
+    return images
 
     # recorre el listado de objetos JSON, lo transforma en una NASACard y lo agrega en el listado de images. Ayuda: ver mapper.py.
 
-    return images
+
 
 
 def getImagesBySearchInputLike(input):
