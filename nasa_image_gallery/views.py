@@ -23,6 +23,9 @@ def home(request):
     # (*) este último, solo si se desarrolló el opcional de favoritos; caso contrario, será un listado vacío [].
     images = []
     favourite_list = []
+
+    images = services_nasa_image_gallery.getAllImages(request)
+    
     return render(request, 'home.html', {'images': images, 'favourite_list': favourite_list} )
 
 
